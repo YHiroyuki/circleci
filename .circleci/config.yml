@@ -1,0 +1,69 @@
+version: 2
+
+jobs:
+  build:
+    working_directory: ~/app
+    docker:
+      - image: python3.4.2
+    steps:
+      - checkout
+      - run:
+        name: sample
+        commands: echo sample
+
+  test:
+    working_directory: ~/app
+    docker:
+      - image: python3.4.2
+    steps:
+      - run:
+        name: common_test
+        commands: echo common_test
+
+  test1:
+    working_directory: ~/app
+    docker:
+      - image: python3.4.2
+    steps:
+      - run:
+        name: test1
+        commands: echo test1
+
+  test2:
+    working_directory: ~/app
+  docker:
+      - image: python3.4.2
+    steps:
+      - run:
+        name: test2
+        commands: echo test2
+
+  deploy:
+    working_directory: ~/app
+    steps:
+      - run:
+        name: deploy
+        commands: echo deploy
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build
+      - test
+          requires:
+            - build
+      - test1:
+          requires:
+            - build
+      - test2:
+          requires:
+            - build
+      - deploy:
+          requires:
+            - test
+            - test1
+            - test2
+          filters:
+            branches:
+              only: master
