@@ -4,66 +4,69 @@ jobs:
   build:
     working_directory: ~/app
     docker:
-      - image: python3.4.2
+      - image: python:3.4.2
     steps:
       - checkout
       - run:
-        name: sample
-        commands: echo sample
+          name: sample
+          command: echo sample
 
   test:
     working_directory: ~/app
     docker:
-      - image: python3.4.2
+      - image: python:3.4.2
     steps:
       - run:
-        name: common_test
-        commands: echo common_test
+          name: common_test
+          command: echo common_test
 
   test1:
     working_directory: ~/app
     docker:
-      - image: python3.4.2
+      - image: python:3.4.2
     steps:
       - run:
-        name: test1
-        commands: echo test1
+          name: test1
+          command: echo test1
 
   test2:
     working_directory: ~/app
-  docker:
-      - image: python3.4.2
+    docker:
+      - image: python:3.4.2
     steps:
       - run:
-        name: test2
-        commands: echo test2
+          name: test2
+          command: echo test2
 
   deploy:
     working_directory: ~/app
+    docker:
+      - image: python:3.4.2
     steps:
       - run:
-        name: deploy
-        commands: echo deploy
+          name: deploy
+          command: echo deploy
 
 workflows:
   version: 2
-  build-and-deploy:
+  build-test-and-deploy:
     jobs:
       - build
       - test
-          requires:
-            - build
-      - test1:
-          requires:
-            - build
-      - test2:
-          requires:
-            - build
-      - deploy:
-          requires:
-            - test
-            - test1
-            - test2
-          filters:
-            branches:
-              only: master
+      #      - test:
+      #          requires:
+      #            - build
+      #      - test1:
+      #          requires:
+      #            - build
+      #      - test2:
+      #          requires:
+      #            - build
+      #      - deploy:
+      #          requires:
+      #            - test
+      #            - test1
+      #            - test2
+      #          filters:
+      #            branches:
+      #              only: master
