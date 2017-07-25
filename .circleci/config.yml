@@ -33,18 +33,6 @@ workflows:
   build_and_test:
     jobs:
       - build
-      - test1:
-          requires:
-            - build
-      - test2:
-          type: approval
-          requires:
-            - build
-      - deploy:
-          requires:
-            - test1
-            - test2
-          filters:
-            branches:
-              only: master
-
+      - test1
+      - test2
+      - deploy
