@@ -22,8 +22,8 @@ jobs:
     docker:
       - image: python:3.4.2
     steps:
-      -checkout
-      -run: echo hold
+      - checkout
+      - run: echo hold
   deploy:
     machine: True
     steps:
