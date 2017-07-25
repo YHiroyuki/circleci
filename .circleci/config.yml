@@ -37,19 +37,13 @@ workflows:
           requires:
             - build
       - test2:
+          type: approval
           requires:
             - build
-          filters:
-            branches:
-              only: dev
-      - hold:
-          type: approval
+      - deploy:
           requires:
             - test1
             - test2
-      - deploy:
-          requires:
-            - hold
           filters:
             branches:
               only: master
