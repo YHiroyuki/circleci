@@ -18,6 +18,12 @@ jobs:
     steps:
       - checkout
       - run: python --version
+  hold:
+    docker:
+      - image: python:3.4.2
+    steps:
+      -checkout
+      -run: echo hold
   deploy:
     machine: True
     steps:
@@ -42,4 +48,8 @@ workflows:
           filters:
             branches:
               only: master
+      - hold:
+          type: approval
+          requires:
+            - deploy
 
