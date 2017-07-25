@@ -5,7 +5,7 @@ jobs:
       - image: python:3.4.2
     steps:
       - checkout
-      - run: python --version
+      - run: echo build
   test1:
     docker:
       - image: python:3.4.2
@@ -18,11 +18,23 @@ jobs:
     steps:
       - checkout
       - run: python --version
+  deploy:
+    machine: True
+    steps:
+      - run: echo deploy
 workflows:
   version: 2
   build_and_test:
     jobs:
       - build
-      - test1
-      - test2
-      - test3
+      - test1:
+          requires:
+            - build
+      - test2:
+          requires:
+            - build
+      - deploy:
+          requires:
+            - test1
+            - test2
+
