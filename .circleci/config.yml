@@ -5,24 +5,19 @@ jobs:
       - image: python:3.4.2
     steps:
       - checkout
+      - run: python --version
   test1:
     docker:
       - image: python:3.4.2
     steps:
       - checkout
-      - run: echo test1
+      - run: python --version
   test2:
     docker:
-      - image: python:3.4.2
+      - image: python:2.7.0
     steps:
       - checkout
-      - run: echo test2
-  test3:
-    docker:
-      - image: python:3.4.2
-    steps:
-      - checkout
-      - run: echo test3
+      - run: python --version
 workflows:
   version: 2
   build_and_test:
