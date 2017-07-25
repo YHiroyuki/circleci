@@ -27,9 +27,7 @@ jobs:
   deploy:
     machine: True
     steps:
-      - run:
-        name: deploy task
-        command: echo deploy
+      - run: echo deploy
 workflows:
   version: 2
   build_and_test:
