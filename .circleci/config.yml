@@ -49,5 +49,5 @@ workflows:
             - hold
           filters:
             branches:
-              only: $MASTER_BRANCH
+              only: master
 
