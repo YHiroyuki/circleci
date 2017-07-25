@@ -39,6 +39,9 @@ workflows:
       - test2:
           requires:
             - build
+          filters:
+            branches:
+              only: dev
       - hold:
           type: approval
           requires:
