@@ -41,15 +41,15 @@ workflows:
       - test2:
           requires:
             - build
-      - deploy:
-          requires:
-            - test1
-            - test2
-          filters:
-            branches:
-              only: master
       - hold:
           type: approval
           requires:
-            - deploy
+            - test1
+            - test2
+      - deploy:
+          requires:
+            - hold
+          filters:
+            branches:
+              only: master
 
