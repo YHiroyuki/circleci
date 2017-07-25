@@ -1,72 +1,33 @@
 version: 2
-
 jobs:
   build:
-    working_directory: ~/app
     docker:
       - image: python:3.4.2
     steps:
       - checkout
-      - run:
-          name: sample
-          command: echo sample
-
-  test:
-    working_directory: ~/app
-    docker:
-      - image: python:3.4.2
-    steps:
-      - run:
-          name: common_test
-          command: echo common_test
-
   test1:
-    working_directory: ~/app
     docker:
       - image: python:3.4.2
     steps:
-      - run:
-          name: test1
-          command: echo test1
-
+      - checkout
+      - run: echo test1
   test2:
-    working_directory: ~/app
     docker:
       - image: python:3.4.2
     steps:
-      - run:
-          name: test2
-          command: echo test2
-
-  deploy:
-    working_directory: ~/app
+      - checkout
+      - run: echo test2
+  test3:
     docker:
       - image: python:3.4.2
     steps:
-      - run:
-          name: deploy
-          command: echo deploy
-
+      - checkout
+      - run: echo test3
 workflows:
   version: 2
-  build-test-and-deploy:
+  build_and_test:
     jobs:
       - build
-      - test
-      #      - test:
-      #          requires:
-      #            - build
-      #      - test1:
-      #          requires:
-      #            - build
-      #      - test2:
-      #          requires:
-      #            - build
-      #      - deploy:
-      #          requires:
-      #            - test
-      #            - test1
-      #            - test2
-      #          filters:
-      #            branches:
-      #              only: master
+      - test1
+      - test2
+      - test3
