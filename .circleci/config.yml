@@ -39,4 +39,7 @@ workflows:
           requires:
             - test1
             - test2
+          filters:
+            branches:
+              only: master
 
