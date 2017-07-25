@@ -14,7 +14,7 @@ jobs:
       - run: python --version
   test2:
     docker:
-      - image: python:2.7.0
+      - image: python:2.7.13
     steps:
       - checkout
       - run: python --version
