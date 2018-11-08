@@ -11,4 +11,9 @@ class Sample
     {
         return 'del';
     }
+
+    public static function hello()
+    {
+        return 'hello';
+    }
 }
