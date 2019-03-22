@@ -21,6 +21,7 @@ jobs:
       - run: python --version
       - run: echo 'export CIRCLE_PR_NUMBER="${CIRCLE_PR_NUMBER:-${CIRCLE_PULL_REQUEST##*/}}"' >> $BASH_ENV
       - run: echo $CIRCLE_PR_NUMBER
+      - run: curl "https://api.github.com/repos/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/pulls/${CIRCLE_PR_NUMBER}?access_token=${GITHUB_TOKEN}"
       # - run: curl ${CIRCLE_PULL_REQUEST}?access_token=${GITHUB_TOKEN} |jq .base.ref
   hold:
     docker:
