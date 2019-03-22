@@ -1,5 +1,6 @@
 <?php
 
+
 class Sample
 {
     public static function create()
