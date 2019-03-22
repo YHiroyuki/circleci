@@ -10,7 +10,7 @@ jobs:
     docker:
       - image: python:3.4.2
     steps:
-      - echo ${CIRCLE_PR_NUMBER}
+      - run: echo ${CIRCLE_PR_NUMBER}
       - checkout
       - run: python --version
   test2:
