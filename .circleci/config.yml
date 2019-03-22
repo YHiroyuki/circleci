@@ -10,13 +10,29 @@ jobs:
     docker:
       - image: python:3.4.2
     steps:
+      - run: echo ${CIRCLE_PR_NUMBER}
       - checkout
       - run: python --version
   test2:
     docker:
       - image: python:2.7.13
     steps:
-      - checkout
+      - run:
+          name: "Install jq"
+          command: apt-get update && apt-get install jq
+      - run:
+          name: "Set PR Number"
+          command: echo 'export CIRCLE_PR_NUMBER="${CIRCLE_PR_NUMBER:-${CIRCLE_PULL_REQUEST##*/}}"' >> $BASH_ENV
+      - run: echo $CIRCLE_PR_NUMBER
+      - run:
+          name: "Set Base branch"
+          command: |
+            curl "https://api.github.com/repos/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/pulls/${CIRCLE_PR_NUMBER}?access_token=${GITHUB_TOKEN}" |
+            jq .base.ref |
+            tr -d '"' |
+            xargs -I@ echo 'export BASE_BRANCH="@"' > $BASH_ENV
+      - run: echo $BASE_BRANCH
+      # - run: curl ${CIRCLE_PULL_REQUEST}?access_token=${GITHUB_TOKEN} |jq .base.ref
       - run: python --version
   hold:
     docker:
@@ -28,6 +44,7 @@ jobs:
     machine: True
     steps:
       - run: echo deploy
+
 workflows:
   version: 2
   build_and_test:
@@ -35,4 +52,3 @@ workflows:
       - build
       - test1
       - test2
-      - deploy
