@@ -17,8 +17,9 @@ jobs:
     docker:
       - image: python:2.7.13
     steps:
-      - checkout
+      - run: apt-get update && apt-get install jq
       - run: python --version
+      - run: curl ${CIRCLE_PULL_REQUEST}?access_token=${GITHUB_TOKEN} |jq .base.ref
   hold:
     docker:
       - image: python:3.4.2
@@ -37,4 +38,3 @@ workflows:
       - build
       - test1
       - test2
-      - deploy
