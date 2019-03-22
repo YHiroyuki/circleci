@@ -17,12 +17,22 @@ jobs:
     docker:
       - image: python:2.7.13
     steps:
-      - run: apt-get update && apt-get install jq
-      - run: python --version
-      - run: echo 'export CIRCLE_PR_NUMBER="${CIRCLE_PR_NUMBER:-${CIRCLE_PULL_REQUEST##*/}}"' >> $BASH_ENV
+      - run:
+          name: "Install jq"
+          command: apt-get update && apt-get install jq
+      - run:
+          name: "Set PR Number"
+          command: echo 'export CIRCLE_PR_NUMBER="${CIRCLE_PR_NUMBER:-${CIRCLE_PULL_REQUEST##*/}}"' >> $BASH_ENV
       - run: echo $CIRCLE_PR_NUMBER
-      - run: curl "https://api.github.com/repos/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/pulls/${CIRCLE_PR_NUMBER}?access_token=${GITHUB_TOKEN}" | jq .base.ref | tr -d '"'
+      - run:
+          name: "Set Base branch"
+          command: |
+            curl "https://api.github.com/repos/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/pulls/${CIRCLE_PR_NUMBER}?access_token=${GITHUB_TOKEN}" |
+            jq .base.ref |
+            tr -d '"' |
+            xargs -I@ echo 'export BASE_BRANCH="@"' > $BASH_ENV
       # - run: curl ${CIRCLE_PULL_REQUEST}?access_token=${GITHUB_TOKEN} |jq .base.ref
+      - run: python --version
   hold:
     docker:
       - image: python:3.4.2
