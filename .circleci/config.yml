@@ -6,6 +6,7 @@ jobs:
     steps:
       - checkout
       - run: echo build
+      - run: echo sample
   test1:
     docker:
       - image: python:3.4.2
