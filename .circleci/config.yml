@@ -31,6 +31,7 @@ jobs:
             jq .base.ref |
             tr -d '"' |
             xargs -I@ echo 'export BASE_BRANCH="@"' > $BASH_ENV
+      - run: echo $BASE_BRANCH
       # - run: curl ${CIRCLE_PULL_REQUEST}?access_token=${GITHUB_TOKEN} |jq .base.ref
       - run: python --version
   hold:
